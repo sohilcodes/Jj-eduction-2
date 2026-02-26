@@ -250,5 +250,32 @@ No personal trading advice is provided."""
     )
 
 
-print("JJ Learning Assistant Bot Running (Fully Fixed Keyboard + No Errors)")
-bot.infinity_polling(none_stop=True)
+print("JJ Learning Assistant Bot Running (Safe Mode + Web Service)")
+
+import time
+from flask import Flask
+import threading
+
+# 🌐 Dummy Web Server (Render + UptimeRobot)
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+# 🤖 Safe Anti-Freeze Polling Loop (Crash Auto-Restart)
+def run_bot():
+    while True:
+        try:
+            print("Bot polling started...")
+            bot.infinity_polling(timeout=60, long_polling_timeout=60)
+        except Exception as e:
+            print(f"Bot crashed: {e}")
+            time.sleep(5)
+
+# Run bot in background thread (daemon = safer on Render)
+threading.Thread(target=run_bot, daemon=True).start()
+
+# Bind PORT for Render Web Service (MANDATORY)
+port = int(os.environ.get("PORT", 10000))
+app.run(host="0.0.0.0", port=port)
