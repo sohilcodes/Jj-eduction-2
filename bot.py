@@ -228,7 +228,7 @@ A: Always conduct independent research before making financial decisions."""
     bot.send_message(message.chat.id, text, reply_markup=main_menu())
 
 
-# 📩 Learning Support (INLINE BUTTON)
+# 📩 Learning Support (NO INLINE BUTTON)
 @bot.message_handler(func=lambda message: message.text == "📩 Learning Support")
 def learning_support(message):
     text = """📩 Learning Support
@@ -246,9 +246,8 @@ No personal trading advice is provided."""
     bot.send_message(
         message.chat.id,
         text,
-        reply_markup=learn_more_button()
+        reply_markup=main_menu()
     )
-
 
 print("JJ Learning Assistant Bot Running (Safe Mode + Web Service)")
 
